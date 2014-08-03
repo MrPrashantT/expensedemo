@@ -7,13 +7,12 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.ProgressBar;
+import android.widget.*;
 
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceTable;
@@ -63,8 +62,18 @@ public class ToDoActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_to_do);
-		
-		//mProgressBar = (ProgressBar) findViewById(R.id.loadingProgressBar);
+
+        Button button = (Button) findViewById(R.id.button2);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent startNewActivityOpen = new Intent(ToDoActivity.this, AddExpensePage.class);
+                startActivityForResult(startNewActivityOpen, 0);
+            }
+        });
+
+
+        //mProgressBar = (ProgressBar) findViewById(R.id.loadingProgressBar);
 
 		// Initialize the progress bar
 		//mProgressBar.setVisibility(ProgressBar.GONE);
@@ -123,6 +132,11 @@ public class ToDoActivity extends Activity {
 			createAndShowDialog(new Exception("There was an error creating the Mobile Service. Verify the URL"), "Error");
 		}*/
 	}
+
+    public void NavigateToAddExpense() {
+
+
+    }
 	
 	/**
 	 * Initializes the activity menu
@@ -219,19 +233,19 @@ public class ToDoActivity extends Activity {
 		// adapter
 		mToDoTable.where().field("complete").eq(val(false)).execute(new TableQueryCallback<ToDoItem>() {
 
-			public void onCompleted(List<ToDoItem> result, int count, Exception exception, ServiceFilterResponse response) {
-				if (exception == null) {
-					mAdapter.clear();
+            public void onCompleted(List<ToDoItem> result, int count, Exception exception, ServiceFilterResponse response) {
+                if (exception == null) {
+                    mAdapter.clear();
 
-					for (ToDoItem item : result) {
-						mAdapter.add(item);
-					}
+                    for (ToDoItem item : result) {
+                        mAdapter.add(item);
+                    }
 
-				} else {
-					createAndShowDialog(exception, "Error");
-				}
-			}
-		});
+                } else {
+                    createAndShowDialog(exception, "Error");
+                }
+            }
+        });
 	}
 
 	/**
