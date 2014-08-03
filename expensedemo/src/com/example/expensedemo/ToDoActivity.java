@@ -24,6 +24,7 @@ import com.microsoft.windowsazure.mobileservices.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.ServiceFilterResponseCallback;
 import com.microsoft.windowsazure.mobileservices.TableOperationCallback;
 import com.microsoft.windowsazure.mobileservices.TableQueryCallback;
+import java.net.MalformedURLException;
 
 public class ToDoActivity extends Activity {
 
@@ -36,7 +37,10 @@ public class ToDoActivity extends Activity {
 	 * Mobile Service Table used to access data
 	 */
 	private MobileServiceTable<ToDoItem> mToDoTable;
-
+    private MobileServiceTable<ExpenseItem> mExpenseItemTable;
+    private MobileServiceTable<ExpenseReport> mExpenseReportTable;
+    private MobileServiceTable<CostCode> mCostCodeTable;
+    private MobileServiceTable<Employee> mEmployeeTable;
 	/**
 	 * Adapter to sync the items list with the view
 	 */
@@ -60,12 +64,12 @@ public class ToDoActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_to_do);
 		
-		mProgressBar = (ProgressBar) findViewById(R.id.loadingProgressBar);
+		//mProgressBar = (ProgressBar) findViewById(R.id.loadingProgressBar);
 
 		// Initialize the progress bar
-		mProgressBar.setVisibility(ProgressBar.GONE);
+		//mProgressBar.setVisibility(ProgressBar.GONE);
 		
-		try {
+		/*try {
 			// Create the Mobile Service Client instance, using the provided
 			// Mobile Service URL and key
 			mClient = new MobileServiceClient(
@@ -74,21 +78,50 @@ public class ToDoActivity extends Activity {
 					this).withFilter(new ProgressFilter());
 
 			// Get the Mobile Service Table instance to use
-			mToDoTable = mClient.getTable(ToDoItem.class);
+			//mToDoTable = mClient.getTable(ToDoItem.class);
 
-			mTextNewToDo = (EditText) findViewById(R.id.textNewToDo);
+            mEmployeeTable = mClient.getTable(Employee.class);
+            mExpenseItemTable = mClient.getTable(ExpenseItem.class);
+            mExpenseReportTable = mClient.getTable(ExpenseReport.class);
+            mCostCodeTable = mClient.getTable(CostCode.class);
+
+
+            Employee me = new Employee();
+            me.firstname = "Test";
+            me.lastname = "Gilchrist";
+            me.title = "CFO";
+            me.email = "email@email.com";
+            me.manager = 2;
+
+            mEmployeeTable.insert(me, new TableOperationCallback<Employee>() {
+
+                public void onCompleted(Employee entity, Exception exception,
+                                        ServiceFilterResponse response) {
+                    if(exception == null){
+                        createAndShowDialog("added to db", "Success!");
+                    } else {
+                        createAndShowDialog(exception, "Error");
+                    }
+                }
+            });
+
+
+
+
+
+			//mTextNewToDo = (EditText) findViewById(R.id.textNewToDo);
 
 			// Create an adapter to bind the items with the view
-			mAdapter = new ToDoItemAdapter(this, R.layout.row_list_to_do);
-			ListView listViewToDo = (ListView) findViewById(R.id.listViewToDo);
-			listViewToDo.setAdapter(mAdapter);
+			//mAdapter = new ToDoItemAdapter(this, R.layout.row_list_to_do);
+			//ListView listViewToDo = (ListView) findViewById(R.id.listViewToDo);
+			//listViewToDo.setAdapter(mAdapter);
 		
 			// Load the items from the Mobile Service
-			refreshItemsFromTable();
+			//refreshItemsFromTable();
 
 		} catch (MalformedURLException e) {
 			createAndShowDialog(new Exception("There was an error creating the Mobile Service. Verify the URL"), "Error");
-		}
+		}*/
 	}
 	
 	/**
@@ -128,17 +161,17 @@ public class ToDoActivity extends Activity {
 		
 		mToDoTable.update(item, new TableOperationCallback<ToDoItem>() {
 
-			public void onCompleted(ToDoItem entity, Exception exception, ServiceFilterResponse response) {
-				if (exception == null) {
-					if (entity.isComplete()) {
-						mAdapter.remove(entity);
-					}
-				} else {
-					createAndShowDialog(exception, "Error");
-				}
-			}
+            public void onCompleted(ToDoItem entity, Exception exception, ServiceFilterResponse response) {
+                if (exception == null) {
+                    if (entity.isComplete()) {
+                        mAdapter.remove(entity);
+                    }
+                } else {
+                    createAndShowDialog(exception, "Error");
+                }
+            }
 
-		});
+        });
 	}
 
 	/**
