@@ -1,6 +1,7 @@
 package com.example.expensedemo;
 
 import static com.microsoft.windowsazure.mobileservices.MobileServiceQueryOperations.*;
+//import static com.abbyy.mobile.*;
 
 import java.net.MalformedURLException;
 import java.util.List;
@@ -14,6 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 
+import com.abbyy.mobile.ocr4.Engine;
+import com.abbyy.mobile.ocr4.License;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.NextServiceFilterCallback;
@@ -23,6 +26,8 @@ import com.microsoft.windowsazure.mobileservices.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.ServiceFilterResponseCallback;
 import com.microsoft.windowsazure.mobileservices.TableOperationCallback;
 import com.microsoft.windowsazure.mobileservices.TableQueryCallback;
+
+import javax.sql.DataSource;
 import java.net.MalformedURLException;
 
 public class ToDoActivity extends Activity {
@@ -73,64 +78,9 @@ public class ToDoActivity extends Activity {
         });
 
 
-        //mProgressBar = (ProgressBar) findViewById(R.id.loadingProgressBar);
-
-		// Initialize the progress bar
-		//mProgressBar.setVisibility(ProgressBar.GONE);
-		
-		/*try {
-			// Create the Mobile Service Client instance, using the provided
-			// Mobile Service URL and key
-			mClient = new MobileServiceClient(
-					"https://expensedemo.azure-mobile.net/",
-					"QJxmbTBIfhPrbedjgZWxFKBrGDmsSt88",
-					this).withFilter(new ProgressFilter());
-
-			// Get the Mobile Service Table instance to use
-			//mToDoTable = mClient.getTable(ToDoItem.class);
-
-            mEmployeeTable = mClient.getTable(Employee.class);
-            mExpenseItemTable = mClient.getTable(ExpenseItem.class);
-            mExpenseReportTable = mClient.getTable(ExpenseReport.class);
-            mCostCodeTable = mClient.getTable(CostCode.class);
-
-
-            Employee me = new Employee();
-            me.firstname = "Test";
-            me.lastname = "Gilchrist";
-            me.title = "CFO";
-            me.email = "email@email.com";
-            me.manager = 2;
-
-            mEmployeeTable.insert(me, new TableOperationCallback<Employee>() {
-
-                public void onCompleted(Employee entity, Exception exception,
-                                        ServiceFilterResponse response) {
-                    if(exception == null){
-                        createAndShowDialog("added to db", "Success!");
-                    } else {
-                        createAndShowDialog(exception, "Error");
-                    }
-                }
-            });
 
 
 
-
-
-			//mTextNewToDo = (EditText) findViewById(R.id.textNewToDo);
-
-			// Create an adapter to bind the items with the view
-			//mAdapter = new ToDoItemAdapter(this, R.layout.row_list_to_do);
-			//ListView listViewToDo = (ListView) findViewById(R.id.listViewToDo);
-			//listViewToDo.setAdapter(mAdapter);
-		
-			// Load the items from the Mobile Service
-			//refreshItemsFromTable();
-
-		} catch (MalformedURLException e) {
-			createAndShowDialog(new Exception("There was an error creating the Mobile Service. Verify the URL"), "Error");
-		}*/
 	}
 
     public void NavigateToAddExpense() {
